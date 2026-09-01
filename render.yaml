@@ -1,15 +1,14 @@
-services:
+﻿services:
   - type: web
     name: navnirmiti-backend
     runtime: node
     plan: free
+    rootDir: .
     buildCommand: npm install
     startCommand: node server.js
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 5000
       - key: MONGODB_URI
         sync: false
       - key: JWT_SECRET
@@ -31,4 +30,6 @@ services:
       - key: CONTACT_EMAIL
         value: navnirmiti67@gmail.com
       - key: APP_URL
+        sync: false
+      - key: ADDITIONAL_ORIGINS
         sync: false
