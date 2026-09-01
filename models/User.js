@@ -85,6 +85,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  // Admin designation / title shown in the admin portal sidebar
+  designation: {
+    type: String,
+    trim: true,
+    default: null
+  },
   // Client account approval (clients must be approved by admin before login)
   isApproved: {
     type: Boolean,
