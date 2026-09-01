@@ -35,8 +35,13 @@ const app = express();
 // Connect to database
 connectDB();
 
+// Health check — registered before all other middleware so it always responds
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'OK', message: 'Server is running' });
+});
+
 // Middleware
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 // Build CORS allowed origins from environment variables
 const allowedOrigins = [];
 if (process.env.APP_URL) {
@@ -76,11 +81,6 @@ app.use('/api/modules',       moduleRoutes);
 app.use('/api/clients',       clientRoutes);
 app.use('/api/jobs',          jobRoutes);
 app.use('/api/email-logs',    emailLogRoutes);
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'OK', message: 'Server is running' });
-});
 
 // Serve static files from uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
