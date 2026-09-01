@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Innovative Sustainable Construction Techniques for 2025",
+    "excerpt": "Discover the latest eco-friendly construction methods that are revolutionizing the industry while reducing environmental impact.",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "author": "Er. Ramchandra P. More",
+    "category": "Industry Trends",
+    "published": true
+  },
+  {
+    "title": "The Importance of Vastu Shastra in Modern Construction",
+    "excerpt": "How ancient Indian architectural principles are being integrated with contemporary design for harmonious living spaces.",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "author": "Dr. Anjali Sharma",
+    "category": "Vastu Insights",
+    "published": true
+  },
+  {
+    "title": "Top 10 Commercial Construction Challenges and Solutions",
+    "excerpt": "Addressing common obstacles in commercial building projects and proven strategies to overcome them effectively.",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "author": "Rajesh Kumar",
+    "category": "Construction Tips",
+    "published": true
+  },
+  {
+    "title": "Transforming Your Living Space: Interior Design Trends for 2025",
+    "excerpt": "Explore the latest interior design trends that are shaping modern homes and commercial spaces this year.",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "author": "Priya Desai",
+    "category": "Interior Design",
+    "published": true
+  },
+  {
+    "title": "Project Spotlight: Luxury Resort Complex in Goa",
+    "excerpt": "A behind-the-scenes look at our recently completed luxury resort project and the challenges we overcame.",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "author": "Sanjay Patel",
+    "category": "Project Showcase",
+    "published": true
+  },
+  {
+    "title": "The Future of Smart Homes: Technology Integration in Construction",
+    "excerpt": "How IoT and smart technologies are becoming integral parts of modern residential construction projects.",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "author": "Neha Gupta",
+    "category": "Technology",
+    "published": true
+  }
+]

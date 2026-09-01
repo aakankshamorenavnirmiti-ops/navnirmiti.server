@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Luxury Residential Complex",
+    "description": "A premium residential complex with modern amenities and sustainable design.",
+    "location": "Mumbai, Maharashtra",
+    "year": "2023",
+    "category": "residential"
+  },
+  {
+    "title": "Corporate Office Tower",
+    "description": "A 25-story commercial building with state-of-the-art facilities.",
+    "location": "Pune, Maharashtra",
+    "year": "2022",
+    "category": "commercial"
+  },
+  {
+    "title": "Hotel & Resort",
+    "description": "A luxury resort with 150 rooms and recreational facilities.",
+    "location": "Goa",
+    "year": "2023",
+    "category": "hotel"
+  },
+  {
+    "title": "Modern Apartment Complex",
+    "description": "Contemporary apartment complex with smart home features.",
+    "location": "Bangalore, Karnataka",
+    "year": "2021",
+    "category": "residential"
+  },
+  {
+    "title": "Retail Mall",
+    "description": "A multi-level shopping mall with entertainment zones.",
+    "location": "Chennai, Tamil Nadu",
+    "year": "2022",
+    "category": "commercial"
+  },
+  {
+    "title": "Luxury Villa Interiors",
+    "description": "Complete interior design for a 5000 sq. ft. luxury villa.",
+    "location": "Delhi",
+    "year": "2023",
+    "category": "interior"
+  }
+]

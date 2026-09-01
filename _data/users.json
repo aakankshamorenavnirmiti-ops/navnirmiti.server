@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Admin User",
+    "email": "admin@navnirmiti.com",
+    "password": "admin123",
+    "role": "admin"
+  },
+  {
+    "name": "Er. Ramchandra P. More",
+    "email": "ramchandra@navnirmiti.com",
+    "password": "ramchandra123",
+    "role": "admin"
+  }
+]
