@@ -35,7 +35,12 @@ const app = express();
 // Connect to database
 connectDB();
 
-// Health check — registered before all other middleware so it always responds
+// Root route — confirms API is live
+app.get('/', (req, res) => {
+  res.json({ success: true, message: 'NNC Backend API is running' });
+});
+
+// Health check
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'OK', message: 'Server is running' });
 });
