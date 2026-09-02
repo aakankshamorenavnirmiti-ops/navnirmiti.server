@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 const router  = express.Router();
 const {
   getModules, getModule, createModule, updateModule, deleteModule,
@@ -10,7 +10,7 @@ const { protect, authorize } = require('../middleware/auth');
 const upload = require('../middleware/multer');
 const CertificationRequest = require('../models/CertificationRequest');
 
-/* ── Static paths MUST come before /:id to avoid conflicts ── */
+/* â”€â”€ Static paths MUST come before /:id to avoid conflicts â”€â”€ */
 
 // Certification requests (static routes first)
 router.get('/cert-requests',               protect, authorize('admin'),   getAllCertRequests);
@@ -20,7 +20,7 @@ router.put('/cert-requests/:id',           protect, authorize('admin'),   update
 router.put('/cert-requests/:id/upload-pdf', protect, authorize('admin'),  upload.single('pdf'), uploadCertPdf);
 
 // Student: get own issued certificate
-router.get('/my-certificate', protect, authorize('student'), async (req, res) => {
+router.get('/my-certificate', protect, async (req, res) => {
   try {
     const cert = await CertificationRequest.findOne({
       student: req.user.id,
