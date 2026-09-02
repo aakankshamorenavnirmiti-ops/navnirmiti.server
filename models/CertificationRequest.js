@@ -20,7 +20,11 @@ const certificationRequestSchema = new mongoose.Schema({
   adminNotes:       { type: String, default: '' },
   modulesCompleted: [{ type: String }],
   // PDF certificate uploaded by admin — filename stored in /uploads/
-  certificatePdf:   { type: String, default: null }
+  certificatePdf:   { type: String, default: null },
+  // Base64-encoded PDF stored directly in MongoDB (no filesystem/CDN required)
+  certificatePdfData:     { type: String, default: null },  // Base64 string
+  certificatePdfMimeType: { type: String, default: 'application/pdf' },
+  certificatePdfName:     { type: String, default: null },  // original filename
 }, { timestamps: true });
 
 module.exports = mongoose.model('CertificationRequest', certificationRequestSchema);
