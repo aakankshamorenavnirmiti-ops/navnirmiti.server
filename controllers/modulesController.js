@@ -59,6 +59,14 @@ exports.startModule = asyncHandler(async (req, res) => {
   } else {
     user.trainingProgress.push({ module: mod.title, status: 'in_progress' });
   }
+  // If module has no quiz, auto-complete it on start
+  if (!mod.quiz || mod.quiz.length === 0) {
+    const prog = user.trainingProgress.find(p => p.module === mod.title);
+    if (prog && prog.status !== 'completed') {
+      prog.status = 'completed';
+      prog.completedAt = new Date();
+    }
+  }
   await user.save();
   res.json({ success: true, data: user.trainingProgress });
 });
@@ -68,8 +76,28 @@ exports.submitQuiz = asyncHandler(async (req, res) => {
   const { answers } = req.body; // array of selected option indices
   const mod  = await TrainingModule.findById(req.params.id);
   if (!mod) return res.status(404).json({ success: false, error: 'Module not found' });
-  if (!mod.quiz || mod.quiz.length === 0)
-    return res.status(400).json({ success: false, error: 'This module has no quiz' });
+  // If module has no quiz, just mark it completed
+  if (!mod.quiz || mod.quiz.length === 0) {
+    const user = await User.findById(req.user.id);
+    const idx = user.trainingProgress.findIndex(p => p.module === mod.title);
+    if (idx > -1) {
+      user.trainingProgress[idx].status = 'completed';
+      user.trainingProgress[idx].completedAt = new Date();
+    } else {
+      user.trainingProgress.push({ module: mod.title, status: 'completed', completedAt: new Date() });
+    }
+    await user.save();
+    return res.json({
+      success: true,
+      score: 100,
+      passed: true,
+      passMark: 0,
+      correct: 0,
+      total: 0,
+      results: [],
+      progress: user.trainingProgress
+    });
+  }
 
   // Grade
   let correct = 0;
