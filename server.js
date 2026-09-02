@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
+const fs   = require('fs');
 
 // Load environment variables
 dotenv.config({ path: './config/config.env' });
@@ -31,6 +32,13 @@ const errorHandler = require('./middleware/errorHandler');
 
 // Initialize app
 const app = express();
+
+// Ensure uploads directory exists (created fresh on each Render deploy)
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+  console.log('Created uploads/ directory');
+}
 
 // Connect to database
 connectDB();
