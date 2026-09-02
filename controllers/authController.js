@@ -191,7 +191,7 @@ exports.uploadProfilePhoto = asyncHandler(async (req, res) => {
   if (!req.file) return res.status(400).json({ success: false, error: 'No file uploaded' });
   const user = await User.findByIdAndUpdate(
     req.user.id,
-    { profilePhoto: req.file.filename },
+    { profilePhoto: req.file.path },
     { new: true }
   );
   res.json({ success: true, data: user });

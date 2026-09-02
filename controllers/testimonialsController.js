@@ -1,4 +1,4 @@
-const Testimonial = require('../models/Testimonial');
+﻿const Testimonial = require('../models/Testimonial');
 const asyncHandler = require('../middleware/asyncHandler');
 
 // @desc    Get all published testimonials (optionally filtered by category)
@@ -26,7 +26,7 @@ exports.getAllTestimonials = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 exports.createTestimonial = asyncHandler(async (req, res) => {
   const body = { ...req.body };
-  if (req.file) body.photo = req.file.filename;
+  if (req.file) body.photo = req.file.path;
   if (typeof body.published === 'string') body.published = body.published === 'true';
 
   const testimonial = await Testimonial.create(body);
@@ -38,7 +38,7 @@ exports.createTestimonial = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 exports.updateTestimonial = asyncHandler(async (req, res) => {
   const body = { ...req.body };
-  if (req.file) body.photo = req.file.filename;
+  if (req.file) body.photo = req.file.path;
   if (typeof body.published === 'string') body.published = body.published === 'true';
 
   const testimonial = await Testimonial.findByIdAndUpdate(req.params.id, body, { new: true, runValidators: true });

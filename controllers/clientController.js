@@ -1,4 +1,4 @@
-const User           = require('../models/User');
+﻿const User           = require('../models/User');
 const ClientProject  = require('../models/ClientProject');
 const ClientQuery    = require('../models/ClientQuery');
 const asyncHandler   = require('../middleware/asyncHandler');
@@ -7,9 +7,9 @@ const emailService   = require('../utils/emailService');
 const ADMIN_EMAIL = () => process.env.CONTACT_EMAIL || 'navnirmiti67@gmail.com';
 const APP_URL     = () => process.env.APP_URL || 'http://localhost:3000';
 
-/* ════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CLIENT REGISTRATION (with payment screenshot)
-═══════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 exports.registerClient = asyncHandler(async (req, res) => {
   const { name, email, password, phone, address } = req.body;
 
@@ -28,8 +28,8 @@ exports.registerClient = asyncHandler(async (req, res) => {
     isApproved: false
   };
 
-  if (req.files?.profilePhoto?.[0])      userData.profilePhoto      = req.files.profilePhoto[0].filename;
-  if (req.files?.paymentScreenshot?.[0]) userData.paymentScreenshot = req.files.paymentScreenshot[0].filename;
+  if (req.files?.profilePhoto?.[0])      userData.profilePhoto      = req.files.profilePhoto[0].path;
+  if (req.files?.paymentScreenshot?.[0]) userData.paymentScreenshot = req.files.paymentScreenshot[0].path;
 
   const user = await User.create(userData);
   await ClientProject.create({ client: user._id, projectTitle: `${name}'s Project` });
@@ -37,10 +37,10 @@ exports.registerClient = asyncHandler(async (req, res) => {
   // Notify admin
   emailService.sendEmail({
     to: ADMIN_EMAIL(), toName: 'Admin',
-    subject: `🏗 New Client Registration (Pending Approval) — ${name}`,
+    subject: `ðŸ— New Client Registration (Pending Approval) â€” ${name}`,
     eventType: 'admin_client_reg_notify', role: 'admin',
     template: {
-      title: `New Client Registration — Pending Approval`,
+      title: `New Client Registration â€” Pending Approval`,
       body: `
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
@@ -62,9 +62,9 @@ exports.registerClient = asyncHandler(async (req, res) => {
   });
 });
 
-/* ════════════════════════════════════════════
-   ADMIN — APPROVE / REJECT CLIENT
-═══════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ADMIN â€” APPROVE / REJECT CLIENT
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 exports.approveClient = asyncHandler(async (req, res) => {
   const { action, adminNote } = req.body;
   const user = await User.findById(req.params.id);
@@ -88,9 +88,9 @@ exports.approveClient = asyncHandler(async (req, res) => {
   }
 });
 
-/* ════════════════════════════════════════════
-   ADMIN — DELETE CLIENT
-═══════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ADMIN â€” DELETE CLIENT
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 exports.deleteClient = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (!user || user.role !== 'client')
@@ -103,18 +103,18 @@ exports.deleteClient = asyncHandler(async (req, res) => {
   res.json({ success: true, data: {} });
 });
 
-/* ════════════════════════════════════════════
-   CLIENT PROJECT — own data
-═══════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CLIENT PROJECT â€” own data
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 exports.getMyProject = asyncHandler(async (req, res) => {
   let project = await ClientProject.findOne({ client: req.user.id });
   if (!project) project = await ClientProject.create({ client: req.user.id });
   res.json({ success: true, data: project });
 });
 
-/* ════════════════════════════════════════════
-   ADMIN — list all clients
-═══════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ADMIN â€” list all clients
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 exports.getAllClients = asyncHandler(async (req, res) => {
   const filter = req.query.pending === 'true'
     ? { role: 'client', isApproved: false }
@@ -129,9 +129,9 @@ exports.getClientProject = asyncHandler(async (req, res) => {
   res.json({ success: true, data: project });
 });
 
-/* ════════════════════════════════════════════
-   ADMIN — upload stage files + email client
-═══════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ADMIN â€” upload stage files + email client
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 const notifyClient = async (clientId, stageTitle, stageMessage) => {
   const user = await User.findById(clientId);
   if (user) emailService.clientProjectUpdate(user, stageTitle, stageMessage);
@@ -141,7 +141,7 @@ exports.uploadPlan = asyncHandler(async (req, res) => {
   if (!req.file) return res.status(400).json({ success: false, error: 'No file uploaded' });
   const project = await ClientProject.findOneAndUpdate(
     { client: req.params.id },
-    { planPdf: req.file.filename, planUploadedAt: new Date() },
+    { planPdf: req.file.path, planUploadedAt: new Date() },
     { new: true, upsert: true }
   );
   notifyClient(req.params.id, 'Plan Document Ready',
@@ -153,7 +153,7 @@ exports.uploadAgreement = asyncHandler(async (req, res) => {
   if (!req.file) return res.status(400).json({ success: false, error: 'No file uploaded' });
   const project = await ClientProject.findOneAndUpdate(
     { client: req.params.id },
-    { agreementPdf: req.file.filename, agreementUploadedAt: new Date() },
+    { agreementPdf: req.file.path, agreementUploadedAt: new Date() },
     { new: true, upsert: true }
   );
   notifyClient(req.params.id, 'Agreement Document Ready',
@@ -166,7 +166,7 @@ exports.uploadProgressImages = asyncHandler(async (req, res) => {
     return res.status(400).json({ success: false, error: 'No files uploaded' });
 
   const caption   = req.body.caption || '';
-  const newImages = req.files.map(f => ({ filename: f.filename, caption }));
+  const newImages = req.files.map(f => ({ filename: f.path, caption }));
   const project   = await ClientProject.findOneAndUpdate(
     { client: req.params.id },
     { $push: { progressImages: { $each: newImages, $position: 0 } } },
@@ -191,10 +191,10 @@ exports.uploadCompletion = asyncHandler(async (req, res) => {
   if (!req.file) return res.status(400).json({ success: false, error: 'No file uploaded' });
   const project = await ClientProject.findOneAndUpdate(
     { client: req.params.id },
-    { completionImage: req.file.filename, completionUploadedAt: new Date() },
+    { completionImage: req.file.path, completionUploadedAt: new Date() },
     { new: true, upsert: true }
   );
-  notifyClient(req.params.id, '🏠 Project Completion — Congratulations!',
+  notifyClient(req.params.id, 'ðŸ  Project Completion â€” Congratulations!',
     'Your project is now <strong>complete</strong>! The final site image is available in your dashboard. Congratulations from the entire Nav Nirmiti team!');
   res.json({ success: true, data: project });
 });
@@ -208,9 +208,9 @@ exports.updateProjectTitle = asyncHandler(async (req, res) => {
   res.json({ success: true, data: project });
 });
 
-/* ════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CLIENT QUERIES
-═══════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 exports.createQuery = asyncHandler(async (req, res) => {
   const { requestType, message } = req.body;
   const user = await User.findById(req.user.id);
@@ -219,13 +219,13 @@ exports.createQuery = asyncHandler(async (req, res) => {
 
   const query = await ClientQuery.create({
     client: user._id, clientName: user.name, clientEmail: user.email,
-    requestType, message, attachment: req.file ? req.file.filename : null
+    requestType, message, attachment: req.file ? req.file.path : null
   });
 
   // Notify admin
   emailService.sendEmail({
     to: ADMIN_EMAIL(), toName: 'Admin',
-    subject: `📋 Client ${requestType === 'query' ? 'Query' : requestType === 'approval' ? 'Approval Request' : 'Change Request'} — ${user.name}`,
+    subject: `ðŸ“‹ Client ${requestType === 'query' ? 'Query' : requestType === 'approval' ? 'Approval Request' : 'Change Request'} â€” ${user.name}`,
     eventType: 'admin_client_query_notify', role: 'admin',
     template: {
       title: `New Client ${requestType === 'change_request' ? 'Change Request' : requestType.charAt(0).toUpperCase() + requestType.slice(1)}`,

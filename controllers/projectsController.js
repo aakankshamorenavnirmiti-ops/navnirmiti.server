@@ -1,4 +1,4 @@
-const Project = require('../models/Project');
+﻿const Project = require('../models/Project');
 const asyncHandler = require('../middleware/asyncHandler');
 
 // @desc    Get all projects
@@ -34,11 +34,11 @@ exports.createProject = asyncHandler(async (req, res) => {
 
   // Handle multipart image uploads
   if (req.files && req.files.length > 0) {
-    body.images = req.files.map(f => f.filename);
+    body.images = req.files.map(f => f.path);
     body.image  = body.images[0]; // legacy compat
   } else if (req.file) {
-    body.images = [req.file.filename];
-    body.image  = req.file.filename;
+    body.images = [req.file.path];
+    body.image  = req.file.path;
   }
 
   const project = await Project.create(body);
@@ -62,9 +62,9 @@ exports.updateProject = asyncHandler(async (req, res) => {
 
   // New images uploaded
   const newImages = req.files && req.files.length > 0
-    ? req.files.map(f => f.filename)
+    ? req.files.map(f => f.path)
     : req.file
-    ? [req.file.filename]
+    ? [req.file.path]
     : [];
 
   // Merge: kept existing + new uploads

@@ -43,7 +43,7 @@ if (!fs.existsSync(uploadsDir)) {
 // Connect to database
 connectDB();
 
-// Root route — confirms API is live
+// Root route â€” confirms API is live
 app.get('/', (req, res) => {
   res.json({ success: true, message: 'NNC Backend API is running' });
 });
@@ -98,7 +98,7 @@ app.use('/api/email-logs',    emailLogRoutes);
 // Serve static files from uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Direct file download endpoint — works in both dev and prod
+// Direct file download endpoint â€” works in both dev and prod
 // Used for certificate PDFs so they download through the /api proxy in development
 app.get('/api/download/:filename', (req, res) => {
   const filename = path.basename(req.params.filename); // prevent path traversal
@@ -110,7 +110,7 @@ app.get('/api/download/:filename', (req, res) => {
   });
 });
 
-// Unknown route fallback — must come after all API routes, before errorHandler
+// Unknown route fallback â€” must come after all API routes, before errorHandler
 app.use((req, res) => {
   res.status(404).json({ success: false, error: 'Route not found' });
 });
@@ -124,4 +124,15 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
+
+// Keep-alive: ping /api/health every 14 min to prevent Render free tier spin-down
+if (process.env.NODE_ENV === 'production' && process.env.RENDER_EXTERNAL_URL) {
+  const https = require('https');
+  setInterval(() => {
+    https.get(process.env.RENDER_EXTERNAL_URL + '/api/health', res => {
+      console.log('[keep-alive] ping ->', res.statusCode);
+    }).on('error', e => console.warn('[keep-alive] ping failed:', e.message));
+  }, 14 * 60 * 1000);
+  console.log('[keep-alive] Self-ping enabled every 14 minutes');
+}
 module.exports = app;

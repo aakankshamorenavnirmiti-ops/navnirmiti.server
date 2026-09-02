@@ -1,4 +1,4 @@
-const User = require('../models/User');
+﻿const User = require('../models/User');
 const asyncHandler = require('../middleware/asyncHandler');
 
 // @desc    Update student training progress
@@ -90,7 +90,7 @@ exports.uploadFile = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id);
   
   user.uploadedFiles.push({
-    filename: req.file.filename,
+    filename: req.file.path,
     originalName: req.file.originalname,
     filePath: req.file.path,
     description: description || ''

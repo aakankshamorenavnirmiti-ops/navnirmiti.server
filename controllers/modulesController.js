@@ -1,14 +1,14 @@
-const TrainingModule       = require('../models/TrainingModule');
+﻿const TrainingModule       = require('../models/TrainingModule');
 const CertificationRequest = require('../models/CertificationRequest');
 const User                 = require('../models/User');
 const asyncHandler         = require('../middleware/asyncHandler');
 const emailService         = require('../utils/emailService');
 
-/* ══════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    TRAINING MODULES  (admin CRUD)
-══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-// GET /api/modules  — all published (students) or all (admin)
+// GET /api/modules  â€” all published (students) or all (admin)
 exports.getModules = asyncHandler(async (req, res) => {
   const isAdmin = req.user?.role === 'admin';
   const filter  = isAdmin ? {} : { published: true };
@@ -43,11 +43,11 @@ exports.deleteModule = asyncHandler(async (req, res) => {
   res.json({ success: true, data: {} });
 });
 
-/* ══════════════════════════════════════
-   STUDENT — START / SUBMIT QUIZ
-══════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   STUDENT â€” START / SUBMIT QUIZ
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-// PUT /api/modules/:id/start  — marks module in_progress
+// PUT /api/modules/:id/start  â€” marks module in_progress
 exports.startModule = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
   const mod  = await TrainingModule.findById(req.params.id);
@@ -63,7 +63,7 @@ exports.startModule = asyncHandler(async (req, res) => {
   res.json({ success: true, data: user.trainingProgress });
 });
 
-// POST /api/modules/:id/quiz  — submit quiz answers, auto-mark completed if pass
+// POST /api/modules/:id/quiz  â€” submit quiz answers, auto-mark completed if pass
 exports.submitQuiz = asyncHandler(async (req, res) => {
   const { answers } = req.body; // array of selected option indices
   const mod  = await TrainingModule.findById(req.params.id);
@@ -130,11 +130,11 @@ exports.submitQuiz = asyncHandler(async (req, res) => {
   });
 });
 
-/* ══════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CERTIFICATION REQUESTS
-══════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-// POST /api/modules/cert-request  — student applies for certificate
+// POST /api/modules/cert-request  â€” student applies for certificate
 exports.createCertRequest = asyncHandler(async (req, res) => {
   const { certPhone, type, message } = req.body;
 
@@ -178,11 +178,11 @@ exports.createCertRequest = asyncHandler(async (req, res) => {
   emailService.sendEmail({
     to: process.env.CONTACT_EMAIL || 'navnirmiti67@gmail.com',
     toName: 'Admin',
-    subject: `🎓 ${type === 'theory' ? 'Theory' : 'On-Site'} Certificate Request — ${user.name}`,
+    subject: `ðŸŽ“ ${type === 'theory' ? 'Theory' : 'On-Site'} Certificate Request â€” ${user.name}`,
     eventType: 'admin_cert_request_notify',
     role: 'admin',
     template: {
-      title: `New Certificate Request — ${user.name}`,
+      title: `New Certificate Request â€” ${user.name}`,
       body: `
         <p><strong>Student:</strong> ${user.name}</p>
         <p><strong>Email:</strong> ${user.email}</p>
@@ -199,19 +199,19 @@ exports.createCertRequest = asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, data: cert });
 });
 
-// GET /api/modules/cert-requests/mine  — student's own requests
+// GET /api/modules/cert-requests/mine  â€” student's own requests
 exports.getMyCertRequests = asyncHandler(async (req, res) => {
   const reqs = await CertificationRequest.find({ student: req.user.id }).sort({ createdAt: -1 });
   res.json({ success: true, data: reqs });
 });
 
-// GET /api/modules/cert-requests  — admin: all requests
+// GET /api/modules/cert-requests  â€” admin: all requests
 exports.getAllCertRequests = asyncHandler(async (req, res) => {
   const reqs = await CertificationRequest.find().sort({ createdAt: -1 });
   res.json({ success: true, count: reqs.length, data: reqs });
 });
 
-// PUT /api/modules/cert-requests/:id  — admin: update status
+// PUT /api/modules/cert-requests/:id  â€” admin: update status
 exports.updateCertRequest = asyncHandler(async (req, res) => {
   const { status, adminNotes } = req.body;
   const cert = await CertificationRequest.findByIdAndUpdate(
@@ -232,13 +232,13 @@ exports.updateCertRequest = asyncHandler(async (req, res) => {
   res.json({ success: true, data: cert });
 });
 
-// PUT /api/modules/cert-requests/:id/upload-pdf  — admin uploads certificate PDF
+// PUT /api/modules/cert-requests/:id/upload-pdf  â€” admin uploads certificate PDF
 exports.uploadCertPdf = asyncHandler(async (req, res) => {
   if (!req.file) return res.status(400).json({ success: false, error: 'No file uploaded' });
 
   const cert = await CertificationRequest.findByIdAndUpdate(
     req.params.id,
-    { certificatePdf: req.file.filename, status: 'issued' },
+    { certificatePdf: req.file.path, status: 'issued' },
     { new: true }
   );
   if (!cert) return res.status(404).json({ success: false, error: 'Request not found' });

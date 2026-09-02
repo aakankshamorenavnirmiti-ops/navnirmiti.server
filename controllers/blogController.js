@@ -1,4 +1,4 @@
-const Blog = require('../models/Blog');
+﻿const Blog = require('../models/Blog');
 const asyncHandler = require('../middleware/asyncHandler');
 
 // @desc    Get all blog posts
@@ -36,7 +36,7 @@ exports.getBlogPost = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 exports.createBlogPost = asyncHandler(async (req, res) => {
   // multer sets req.file when an image is uploaded
-  if (req.file) req.body.image = req.file.filename;
+  if (req.file) req.body.image = req.file.path;
   // Convert string 'true'/'false' from FormData to boolean
   if (typeof req.body.published === 'string') {
     req.body.published = req.body.published === 'true';
@@ -49,7 +49,7 @@ exports.createBlogPost = asyncHandler(async (req, res) => {
 // @route   PUT /api/blog/:id
 // @access  Private/Admin
 exports.updateBlogPost = asyncHandler(async (req, res) => {
-  if (req.file) req.body.image = req.file.filename;
+  if (req.file) req.body.image = req.file.path;
   if (typeof req.body.published === 'string') {
     req.body.published = req.body.published === 'true';
   }
