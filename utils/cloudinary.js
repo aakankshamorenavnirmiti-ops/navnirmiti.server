@@ -76,4 +76,34 @@ const deleteFromCloudinary = async (publicId, resourceType = 'image') => {
   }
 };
 
-module.exports = { cloudinary, uploadImage, uploadPdf, uploadMixed, deleteFromCloudinary };
+/**
+ * Upload a PDF buffer directly to Cloudinary as resource_type 'raw'.
+ * Use this instead of multer-storage-cloudinary for PDFs, since
+ * multer-storage-cloudinary v4 does not support resource_type in params.
+ */
+const uploadPdfToCloudinary = (buffer, publicId) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder:        'navnirmiti/documents',
+        resource_type: 'raw',
+        public_id:     publicId,
+        format:        'pdf',
+      },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }
+    );
+    stream.end(buffer);
+  });
+};
+
+// Memory storage — for direct Cloudinary SDK uploads (PDFs)
+const memoryUpload = multer({
+  storage: multer.memoryStorage(),
+  fileFilter,
+  limits,
+});
+
+module.exports = { cloudinary, uploadImage, uploadPdf, uploadMixed, deleteFromCloudinary, uploadPdfToCloudinary, memoryUpload };
