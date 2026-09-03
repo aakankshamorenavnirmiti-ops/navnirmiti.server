@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -43,7 +43,7 @@ if (!fs.existsSync(uploadsDir)) {
 // Connect to database
 connectDB();
 
-// Root route â€” confirms API is live
+// Root route ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â confirms API is live
 app.get('/', (req, res) => {
   res.json({ success: true, message: 'NNC Backend API is running' });
 });
@@ -67,6 +67,7 @@ if (process.env.ADDITIONAL_ORIGINS) {
     .forEach(o => allowedOrigins.push(o));
 }
 allowedOrigins.push(/\.pages\.dev$/);
+allowedOrigins.push(/\.onrender\.com$/);
 
 if (process.env.NODE_ENV === 'production' && allowedOrigins.length === 1) {
   console.warn('[CORS] WARNING: APP_URL is not set. No string origin is whitelisted for production.');
@@ -98,7 +99,7 @@ app.use('/api/email-logs',    emailLogRoutes);
 // Serve static files from uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Direct file download endpoint â€” works in both dev and prod
+// Direct file download endpoint ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â works in both dev and prod
 // Used for certificate PDFs so they download through the /api proxy in development
 app.get('/api/download/:filename', (req, res) => {
   const filename = path.basename(req.params.filename); // prevent path traversal
@@ -110,7 +111,7 @@ app.get('/api/download/:filename', (req, res) => {
   });
 });
 
-// Unknown route fallback â€” must come after all API routes, before errorHandler
+// Unknown route fallback ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â must come after all API routes, before errorHandler
 app.use((req, res) => {
   res.status(404).json({ success: false, error: 'Route not found' });
 });
@@ -120,7 +121,7 @@ app.use(errorHandler);
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
 });
 

@@ -106,7 +106,7 @@ router.get('/my-certificate', protect, async (req, res) => {
 });
 
 // Module list & create
-router.get('/',    protect, getModules);
+router.get('/', getModules);
 router.post('/',   protect, authorize('admin'), createModule);
 
 // Module by ID
